@@ -146,6 +146,13 @@
       }
     }
     ensureTiles();
+function tanggalJakarta_DD_MMMM_YYYY() {
+  const now = new Date();
+  const day = new Intl.DateTimeFormat('id-ID', { timeZone: 'Asia/Jakarta', day: '2-digit' }).format(now);       // 01
+  const month = new Intl.DateTimeFormat('id-ID', { timeZone: 'Asia/Jakarta', month: 'long' }).format(now).toUpperCase(); // SEPTEMBER
+  const year = new Intl.DateTimeFormat('id-ID', { timeZone: 'Asia/Jakarta', year: 'numeric' }).format(now);    // 2025
+  return `${day} ${month} ${year}`;
+}
 
     function cropToAspect(img, aspect = 9/16, targetW = 900) {
       const iw = img.naturalWidth, ih = img.naturalHeight;
@@ -221,7 +228,9 @@
       const imgH = canvas.height * (imgW / canvas.width);
       const y = (pageH - imgH) / 2;
       pdf.addImage(imgData, 'JPEG', 0, y, imgW, imgH, undefined, 'FAST');
-      pdf.save('poster_8_gambar_9x16.pdf');
+      const tanggal = tanggalJakarta_DD_MMMM_YYYY();
+      const filename = `LAMPIRAN KEGIATAN CIPKON DAN GALTAS MERPATI - 14 PADA ${tanggal}.pdf`;
+      pdf.save(filename);
     }
 
     document.getElementById('fill').addEventListener('click', fillPreview);
